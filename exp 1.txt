@@ -1,0 +1,49 @@
+ 
+
+ ?? Program
+Here's a Python program that reads rain precipitation data from a CSV file, analyzes it, and visualizes the results.
+
+ ?? Rain Precipitation Analysis with Visualization
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 1. Load the data
+file_path = "rainfall_data.csv"  # Replace with your CSV file path
+data = pd.read_csv(file_path)
+
+# 2. Preprocessing
+data['date'] = pd.to_datetime(data['date'])
+data.fillna(data.mean(numeric_only=True), inplace=True)
+
+# 3. Basic Analysis
+print("Basic Statistics:")
+print(data.describe())
+
+# 4. Grouping by Month and Year
+data['year'] = data['date'].dt.year
+data['month'] = data['date'].dt.month
+monthly_rainfall = data.groupby(['year', 'month']).sum().reset_index()
+
+# 5. Visualization
+plt.figure(figsize=(12, 6))
+sns.lineplot(x='month', y='precipitation', hue='year', data=monthly_rainfall)
+plt.title('Monthly Rainfall Over the Years')
+plt.xlabel('Month')
+plt.ylabel('Precipitation (mm)')
+plt.legend(title='Year')
+plt.grid(True)
+plt.show()
+
+ 6. Optional: Scatter plot (Precipitation vs Temperature)
+if 'temperature' in data.columns:
+    plt.figure(figsize=(10, 5))
+    sns.scatterplot(x='temperature', y='precipitation', data=data)
+    plt.title('Precipitation vs Temperature')
+    plt.xlabel('Temperature (øC)')
+    plt.ylabel('Precipitation (mm)')
+    plt.show()
+ 
+
