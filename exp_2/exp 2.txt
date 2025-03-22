@@ -1,0 +1,62 @@
+EX: 2	IMPLEMENT PROGRAMS FOR VISUALIZING DATE :		TIME SERIES DATA
+
+
+AIM:
+The program visualizes and analyzes time series data using five techniques to identify trends, seasonality, distribution, and pattern.
+
+ALGORITHM:
+Load the dataset and parse the date column.
+Set the date column as the index for time series analysis.
+Plot a line graph to visualize trends over time.
+Compute and plot the rolling mean for trend smoothing.
+Plot a histogram with KDE to analyze data distribution.
+Create a box plot by year to examine seasonal variations.
+Generate an autocorrelation plot to identify repeating patterns.
+Display all visualizations for interpretation.
+PROGRAM:
+
+plt.figure(figsize=(10,5))
+plt.boxplot(rainfall_data_matrix)
+plt.xlabel('Month')
+plt.ylabel('Precipitation(mm)')
+plt.title('Month vs Precipitation across all years')
+Text(0.5,1,'Month vs Precipitation across all years')
+
+Insights from the plot
+     The rainfall in the months November, December, January,       February, March and April is very less.
+The rainfall in the months June, July and August are high compared to rainfall in other months of the year.
+We can observe the seasonality effect.
+Convert matrix into Series
+
+
+rainfall_data_matrix_np = rainfall_data_matrix.transpose().as_matrix()
+
+shape = rainfall_data_matrix_np.shape
+rainfall_data_matrix_np = rainfall_data_matrix_np.reshape((shape[0] * shape[1], 1))
+Split the whole data into train(1965 - 1995) and test data(1995 - 2002)
+rainfall_data = pd.DataFrame({'Precipitation': rainfall_data_matrix_np[:,0]})
+rainfall_data.set_index(dates, inplace=True)
+
+test_rainfall_data = rainfall_data.ix['1995': '2002']
+rainfall_data = rainfall_data.ix[: '1994']
+rainfall_data.head()
+
+
+Precipitation
+1965-01-01	0.029
+1965-02-01	0.069
+1965-03-01	0.000
+1965-04-01	21.667
+1965-05-01	17.859
+Visualize data
+
+ 
+
+plt.figure(figsize=(20,5))
+plt.plot(rainfall_data, color='blue')
+plt.xlabel('Year')
+plt.ylabel('Precipitation(mm)')
+plt.title('Precipitation in mm')
+Text(0.5,1,'Precipitation in mm')
+ 
+
